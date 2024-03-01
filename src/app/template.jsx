@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from 'react'
-import Navbar from "@/navbar"
+import Navbar from '../../navbar';
 
 const Template = ({children}) => {
 useEffect(() =>{

@@ -2,18 +2,43 @@
 import React, { useState } from 'react'
 
 const Todolist = () => {
-    const [taskList, setTaskList] = useState([
-        { text: 'Do Homework', completed: false },
-        { text: 'Learn React', completed: false },
-        { text: 'Bring milk', completed: false }
-
-    ]);
+    const [taskList, setTaskList] = useState([]);
 
 
 
     const addNewTask = (e) => {
-        console.log(taskList);
+
+      if (e.code === 'Enter'){
+
+      console.log(e.target.value);
+
+       const obj ={text: e.target.value, completed: false};
+
+       setTaskList([obj, ...taskList]);
+
+       e.target.value ='';
+
+
+
     }
+}
+   const deleteTask =(index) => {
+    console.log(index);
+
+    const temp =taskList;
+    temp.splice(index, 1);
+    setTaskList([...temp] );
+ }
+
+
+ const completeTask= (index)=> {
+
+    const temp= taskList;
+    temp[index].completed=!temp[index].completed ;
+    setTaskList([...temp]);
+    console.log(temp);
+ }
+
     return (
         <div className='container py-5'>
 
@@ -32,8 +57,23 @@ const Todolist = () => {
             <div className='card-body'>
                 {
                     taskList.map((task, index) => {
-                        return <div key={index} className='p-3 shadow mb-3 d-flex justify-content-between'>
+                        return <div key={index} className='p-3 shadow mb-3 d-flex justify-content-between align-items-center'>
+                           
+                           <input type="checkbox" checked={task.completed} />
+                           
                             <p className='my-auto h4'>{task.text}</p>
+                            { task.completed ? 
+                            <span className='badge bg-success'> Completed</span>
+                            :
+                            <span className='badge bg-warning'>pending</span>
+                            }
+
+
+                            <button onClick={ () => {deleteTask(index) } } className='btn btn-danger'>Delete</button>
+                            <button onClick={() => {completeTask(index)}} className='btn btn-primary'>
+                                { task.completed ? 'Undo Task' : 'Completed Task'}
+                            </button>
+                            
                         </div>
                     })
                 }
